@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hogwarts Registration Form</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=EB+Garamond&display=swap" rel="stylesheet">
+
+<style>
+/* === BASIC STYLING === */
+body {
+  font-family: 'EB Garamond', serif;
+  background-color: #f6f5ff;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+h1 {
+  font-family: 'Henny Penny', cursive;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+form {
+  border: 3px solid purple;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  background-color: white;
+}
+
+label {
+  display: block;
+  margin: 0.6rem 0 0.2rem;
+  
+}
+
+input, textarea, select, button {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid purple;
+  border-radius: 6px;
+  font-family: 'EB Garamond', serif;
+}
+
+button {
+  background-color: purple;
+  color: white;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+button:hover {
+  background-color: #360061;
+}
+
+/* === HOUSE COLORS USING :has() === */
+form:has(input[value="gryffindor"]:checked) {
+  background-color: #ffebeb; /* light red tint */
+}
+form:has(input[value="hufflepuff"]:checked) {
+  background-color: #fffbe0; /* light yellow */
+}
+form:has(input[value="ravenclaw"]:checked) {
+  background-color: #e0ecff; /* light blue */
+}
+form:has(input[value="slytherin"]:checked) {
+  background-color: #e5ffea; /* light green */
+}
+
+/* group radios vertically */
+fieldset {
+  border: 2px solid purple;
+  border-radius: 6px;
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+}
+legend { font-weight: bold; }
+
+
+.radio-group div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.radio-group input[type="radio"] {
+  width: auto;
+  margin: 0;
+}
+
+
+</style>
+</head>
+
+<body>
+<form id="hogwartsForm"
+      action="https://webhook.site/your-unique-id"
+      method="POST"
+      enctype="multipart/form-data">
+
+  <h1>Hogwarts Registration Form</h1>
+
+  <label>Name* <input type="text" name="name" required></label>
+  <label>Date of birth* <input type="date" name="dob" required></label>
+
+  <label>I let the Sorting Hat choose a house for me.</label>
+  
+
+  <fieldset id="houseSelection" class="radio-group">
+    <legend>Choose your house*</legend>
+
+    <div>
+        <label>Gryffindor</label>
+        <input type="radio" name="house" value="gryffindor" required>
+    </div>
+    <div>
+        <label>Hufflepuff</label>
+        <input type="radio" name="house" value="hufflepuff">
+    </div>
+    
+    <div>
+        <label>Ravenclaw</label>
+        <input type="radio" name="house" value="ravenclaw">
+    </div>
+    
+    <div>
+        <label>Slytherin</label>
+        <input type="radio" name="house" value="slytherin">
+    </div>
+  </fieldset>
+
+  <label>Number of wands <input type="number" name="wands" min="0" value="0"></label>
+
+  <label>Upload your photo <input type="file" name="photo" accept=".png,.jpg,.jpeg"></label>
+
+<fieldset class="radio-group">
+  <legend>Would you like to visit the Ministry of Magic?</legend>
+  
+  <div>
+    <label>Yes</label>
+    <input type="radio" name="visitMinistry" value="yes" required>
+  </div>
+
+  <div>
+    <label>No</label>
+    <input type="radio" name="visitMinistry" value="no">
+  </div>
+</fieldset>
+
+
+  <label>Password
+    <input id="password" name="password" type="password"
+      pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}"
+      title="At least 6 characters, must contain letters and numbers." required>
+  </label>
+
+  <label>Re-enter Password
+    <input id="confirmPassword" type="password" required>
+  </label>
+
+  <label>Email <input type="email" name="email" placeholder="e.g., hp@hogwarts.ac.uk"></label>
+  <label>Comments <textarea name="comments" rows="3" placeholder="e.g., I want to join Quidditch."></textarea></label>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+// === JS INTERACTIVITY AND VALIDATION ===
+const form = document.getElementById("hogwartsForm");
+const sortingHat = document.getElementById("sortingHat");
+const houseSelection = document.getElementById("houseSelection");
+const password = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmPassword");
+
+// Toggle house selection based on Sorting Hat checkbox
+sortingHat.addEventListener("change", () => {
+  houseSelection.querySelectorAll("input").forEach(radio => {
+    radio.disabled = sortingHat.checked;
+  });
+});
+
+// Fallback for browsers that don’t support :has()
+document.querySelectorAll('input[name="house"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const colors = {
+      gryffindor: '#ffebeb',
+      hufflepuff: '#fffbe0',
+      ravenclaw: '#e0ecff',
+      slytherin: '#e5ffea'
+    };
+    form.style.backgroundColor = colors[radio.value];
+  });
+});
+
+// Calculate age from DOB
+function calculateAge(dobString) {
+  const dob = new Date(dobString);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const hasHadBirthday =
+    today.getMonth() > dob.getMonth() ||
+    (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+  if (!hasHadBirthday) age--;
+  return age;
+}
+
+// Handle submit validations
+form.addEventListener("submit", (e) => {
+  const dob = form.dob.value;
+  const age = calculateAge(dob);
+  if (age < 11) {
+    e.preventDefault();
+    alert("You are too young for Hogwarts, the lower age limit is 11 years.");
+    return;
+  }
+
+  if (password.value !== confirmPassword.value) {
+    e.preventDefault();
+    alert("Passwords do not match!");
+    return;
+  }
+
+  // Otherwise form submits normally to Webhook.site
+});
+</script>
+</body>
+</html>

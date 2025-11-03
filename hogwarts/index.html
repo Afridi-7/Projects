@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hogwarts Registration Form</title>
+        <link rel="stylesheet" href="practice.css">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=EB+Garamond&display=swap"
+            rel="stylesheet">
+    </head>
+    <body>
+        <h1>Hogwarts Registration Form</h1>
+        <form id="hogwartsForm"
+            action="https://webhook.site/4629a7fa-b794-4d8d-888a-11f5a62e33b1"
+            method="POST" enctype="multipart/form-data">
+            <label>Name<span class="required">*</span>
+                <input type="text" name="name" required>
+            </label>
+
+            <label>Date of birth<span class="required">*</span><br>
+                <input type="date" name="dob" required><br>
+            </label>
+            <label>I let the Sorting Hat choose a house for me.
+                <input type="checkbox" id="sortingHat">
+            </label>
+
+            <fieldset id="houseSelection" class="radio-group">
+                <legend>Choose your house<span
+                        class="required">*</span></legend>
+                <div>
+                    <label>Gryffindor</label>
+                    <input type="radio" name="house" value="gryffindor"
+                        required>
+                </div>
+                <div>
+                    <label>Hufflepuff</label>
+                    <input type="radio" name="house" value="hufflepuff">
+                </div>
+
+                <div>
+                    <label>Ravenclaw</label>
+                    <input type="radio" name="house" value="ravenclaw">
+                </div>
+
+                <div>
+                    <label>Slytherin</label>
+                    <input type="radio" name="house" value="slytherin">
+                </div>
+            </fieldset>
+            <label>I hereby state that I have a companion pet.
+                <input type="checkbox" name="pet"><br>
+            </label>
+            <label>Number of wands
+                <input type="number" name="wands" min="0" value="0"><br>
+            </label>
+            <label>Upload your photo (PNG or JPEG) <br>
+                <input type="file" name="photo" accept=".png, .jpg, .jpeg"><br>
+            </label>
+            <fieldset class="radio-group">
+                <legend>Would you like to visit the Ministry of Magic?</legend>
+                <div>
+                    <label>Yes</label>
+                    <input type="radio" name="visitMinistry" value="yes"
+                        required>
+                </div>
+                <div>
+                    <label>No</label>
+                    <input type="radio" name="visitMinistry" value="no">
+                </div>
+            </fieldset>
+            <label>Password <br>
+                <input type="password" id="password" name="password"
+                    pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}"
+                    title="Must be at least 6 characters long, contain letters and digits only, and include both letters and numbers."
+                    required>
+            </label>
+            <label>Re-enter Password <br>
+                <input type="password" id="confirmPassword"
+                    name="confirmPassword"
+                    pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}"
+                    title="Must match the password entered above." required>
+            </label>
+            <label>Email <br>
+                <input type="email" name="email"
+                    placeholder="e.g., tasha12@gmail.com"><br>
+            </label>
+            <label>Comments <br>
+                <textarea name="comments" rows="3"
+                    placeholder="e.g., I want to join Quidditch."></textarea>
+            </label>
+            <br><button type="submit">Submit</button>
+
+        </form>
+        <script src="script.js"></script>
+    </body>
